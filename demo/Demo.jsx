@@ -66,23 +66,8 @@ export default class Demo extends React.Component {
             Ut ligula lectus, maximus a ultrices nec, venenatis in neque. Suspendisse suscipit mi eu convallis eleifend. Fusce maximus, turpis
             sed consequat laoreet, mauris ligula elementum arcu, quis aliquet est enim efficitur eros.
           </p>
-          <p>
-            Pellentesque dui neque, euismod vitae ante efficitur, faucibus cursus justo. Ut efficitur, est ac eleifend blandit, quam lorem accumsan
-            mauris, in laoreet nulla risus imperdiet nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Vestibulum pellentesque mi quis pharetra egestas. Morbi lacinia accumsan ante non eleifend. Sed mollis, massa vel convallis imperdiet,
-            quam urna lobortis urna, eu fermentum nulla ante vel purus. Morbi felis purus, imperdiet at risus a, feugiat placerat nunc. Sed commodo
-            ex suscipit auctor ultrices.
-          </p>
-          <p>
-            Morbi posuere, est et lacinia venenatis, metus turpis rhoncus justo, vel elementum ante turpis sit amet ante. Mauris lectus mauris,
-            tristique sed consequat sed, tempor vel sapien. Nulla ultricies fringilla nunc eu pellentesque. Nulla non imperdiet lacus. Nulla cursus
-            nisl condimentum, aliquam nibh nec, iaculis diam. Aenean dignissim sapien et aliquet commodo. Vestibulum ante ipsum primis in faucibus
-            orci luctus et ultrices posuere cubilia Curae; Proin lacinia molestie est ac fringilla. Nulla euismod lorem mi, a luctus massa mollis
-            sit amet. Vivamus tellus risus, pretium in eros nec, fermentum consequat odio. Sed et tristique dolor, a sollicitudin enim. Cras aliquet
-            diam eu risus commodo feugiat. Sed eu tortor at justo imperdiet volutpat. Maecenas vestibulum convallis congue.
-          </p>
         </div>
-        <HMHYR position={{top: 50, left: 50}} offset="top" target="target"/>
+        <HMHYR position={{top: 50, left: 50, width: '80%', height: '10%'}} offset="top" target="target"/>
       </div>
     );
   }

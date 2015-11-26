@@ -1,19 +1,21 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Utils from './utils';
+import '../style.css';
 
 function showItIfShouldBe(target, self) {
   let targetRect = target.getBoundingClientRect();
 
-  // console.log(targetRect.bottom, self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight, targetRect.top, window.innerHeight)
-  if (targetRect.bottom > self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight
-      && targetRect.top < window.innerHeight) {
+  if (targetRect.top < self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight 
+      && targetRect.top < window.innerHeight
+      && targetRect.bottom > self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight) {
 
     if (HMHYR.displayingComponent === ReactDOM.findDOMNode(self).firstChild.id) {
+
       return updateItsPercentageCount(self);
-    } else if (!HMHYR.displayingComponent || window.document.getElementById(HMHYR.displayingComponent).getBoundingClientRect.top < targetRect.bottom) {
+    } else if (!HMHYR.displayingComponent) {
       updateItsPercentageCount(self)
-      HMHYR.displayingComponent = 'hmhyr-' + self.key;
+      HMHYR.displayingComponent = 'hmhyr-' + self.keyId;
 
       if (!self.state.showing) {
         self.setState({showing: true});
@@ -63,7 +65,7 @@ export default class HMHYR extends Component {
       timeToRead: 0,
       percentage: 0
     };
-    this.key = Math.round(Math.random() * 10000);
+    this.keyId = Math.round(Math.random() * 10000);
   }
 
   componentWillMount() {
@@ -73,16 +75,16 @@ export default class HMHYR extends Component {
       width: '90%',
       height: '5%'
     };
-    let pos = {};
+    let customPosition = {};
     for (let key of Object.keys(this.props.position)) {
       let value = this.props.position[key];
-      let convertedValue = (typeof value === 'string' && value.endsWith('%')) ? Number.parsInt(value) / 10 : Number.parseInt(value);
-      if (Number.isNaN(convertedValue)) {
+      let convertedValue = ( value > 1 || typeof value === 'string' && value.endsWith('%')) ? value : (value * 100) + '%';
+      if ((typeof value === 'string' && !value.endsWith('%')) && Number.isNaN(convertedValue)) {
         throw Error('Position props is\'n valid');
       }
-      pos.key = convertedValue;
+      customPosition[key] = convertedValue;
     }
-    this.position = Object.assign({},initialPosition, pos);
+    this.position = Object.assign({},initialPosition, customPosition);
   }
 
   componentDidMount() {
@@ -97,7 +99,7 @@ export default class HMHYR extends Component {
 
     this.wordCount = Utils.recursiveWordsCount(this.target);
 
-    let timeToRead = (this.wordCount / 400);
+    let timeToRead = (this.wordCount / 200);
     timeToRead = Math.floor(timeToRead) + ' minute' + (timeToRead >= 2 ? 's ' : ' ') + Math.round((timeToRead - Math.floor(timeToRead)) * 60 ) + ' seconds';
 
     this.setState({timeToRead});
@@ -115,7 +117,7 @@ export default class HMHYR extends Component {
   render() {    
     return (
       <div>
-        <div id={'hmhyr-' + this.key} style={{position: 'fixed', ...this.position}}>
+        <div id={'hmhyr-' + this.keyId} style={{position: 'fixed', ...this.position}} className="progress-bar">
           { this.state.showing && 
 
             <p>{this.state.timeToRead} {this.state.percentage}</p>
