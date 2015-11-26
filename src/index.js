@@ -117,7 +117,7 @@ export default class HMHYR extends Component {
   render() {    
     return (
       <div>
-        <div id={'hmhyr-' + this.keyId} style={{position: 'fixed', ...this.position}} className="progress-bar">
+        <div id={'hmhyr-' + this.keyId} style={{position: 'fixed', ...this.position}}>
           { this.state.showing && 
 
             <p>{this.state.timeToRead} {this.state.percentage}</p>
