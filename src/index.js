@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Utils from './utils';
-import '../style.css';
 
 function showItIfShouldBe(target, self) {
   let targetRect = target.getBoundingClientRect();
