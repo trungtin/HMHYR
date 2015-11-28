@@ -27,6 +27,16 @@ const config = {
   filename: 'boilerplate',
   library: 'Boilerplate'
 };
+const AUTOPREFIXER_BROWSERS = [
+  'Android 2.3',
+  'Android >= 4',
+  'Chrome >= 35',
+  'Firefox >= 31',
+  'Explorer >= 9',
+  'iOS >= 7',
+  'Opera >= 12',
+  'Safari >= 7.1',
+];
 const CSS_PATHS = [
   config.paths.demo,
   path.join(ROOT_PATH, 'style.css'),
@@ -68,12 +78,31 @@ const demoCommon = {
         test: /\.json$/,
         loader: 'json',
         include: path.join(ROOT_PATH, 'package.json')
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css',
+        include: config.paths.src
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'postcss-loader']
       }
     ]
   },
   plugins: [
-    new SystemBellPlugin()
-  ]
+    new SystemBellPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin()
+  ],
+  postcss: function plugins(bundler) {
+    return [
+      require('postcss-import')({ addDependencyTo: bundler }),
+      require('precss')(),
+      require('autoprefixer')({
+        browsers: AUTOPREFIXER_BROWSERS
+      })
+    ];
+  }
 };
 
 if (TARGET === 'start') {
@@ -83,7 +112,8 @@ if (TARGET === 'start') {
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': JSON.stringify('development')
+          'NODE_ENV': JSON.stringify('development'),
+          BROWSER: JSON.stringify(true)
         }
       }),
       new HtmlWebpackPlugin({
@@ -95,17 +125,17 @@ if (TARGET === 'start') {
     module: {
       loaders: [
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-          include: CSS_PATHS
-        },
-        {
           test: /\.jsx?$/,
           loaders: ['babel'],
           include: [
             config.paths.demo,
             config.paths.src
           ]
+        },
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: CSS_PATHS
         }
       ]
     },

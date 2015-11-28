@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Utils from './utils';
+if (process.env.BROWSER) {
+  require('./style/style.scss');
+}
 
 function showItIfShouldBe(target, self) {
   let targetRect = target.getBoundingClientRect();
@@ -42,8 +45,9 @@ function updateItsPercentageCount(self) {
   } else {
     percentage = (offset * window.innerHeight - targetRect.top) / targetRect.height * 100 + '%';
   }
-
-  self.setState({percentage})
+  if (self.state.showing) {
+    self.refs.overlay.style.width = percentage;
+  }
 }
 
 export default class HMHYR extends Component {
@@ -68,7 +72,7 @@ export default class HMHYR extends Component {
   }
 
   componentWillMount() {
-    let initialPosition = {
+    const initialPosition = {
       top: 10,
       left: 10,
       width: '90%',
@@ -118,8 +122,10 @@ export default class HMHYR extends Component {
       <div>
         <div id={'hmhyr-' + this.keyId} style={{position: 'fixed', ...this.position}}>
           { this.state.showing && 
-
-            <p>{this.state.timeToRead} {this.state.percentage}</p>
+            <div className="progress-bar">
+              <div className="progress-bar-overlay" ref="overlay"></div>
+              <p>{this.state.timeToRead}</p>
+            </div>
           }
         </div>
         { (typeof this.props.children === 'array' &&
