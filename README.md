@@ -5,13 +5,13 @@ Simple components for display reading progress, using `.getBoundingClientRect()`
 ## Installation
 
 ``` javascript
-npm install HMHYR --save-dev
+npm install hmhyr --save-dev
 ```
 
 ## Usage
 
 ``` javascript
-import HMHYR from 'HMHYR';
+import HMHYR from 'hmhyr';
 <HMHYR
   area
   style
