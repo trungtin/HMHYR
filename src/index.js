@@ -104,21 +104,6 @@ export default class HMHYR extends Component {
     };
 
     this.style = Object.assign({},initialStyle, this.props.style || {});
-
-    let customArea = {...{
-      top: '20%',
-      center: '50%',
-      bottom: '60%'
-    }, ...(this.props.area || {})}
-
-    this.area = {};
-    for (let key of ['top', 'center', 'bottom']) {
-      let value = customArea[key];
-      this.area[key] = (typeof value === 'string' && value.endsWith('%')) ? Number.parseInt(value) / 100 * window.innerHeight : Number.parseInt(value);
-      if (Number.isNaN(this.area[key])) {
-        throw Error('Value of area.' + key + ' is invalid');
-      }
-    }
   }
 
   componentDidMount() {
@@ -137,6 +122,21 @@ export default class HMHYR extends Component {
 
     // Where should I use setState if not here?
     this.setState({timeToRead});
+
+    let customArea = {...{
+      top: '20%',
+      center: '50%',
+      bottom: '60%'
+    }, ...(this.props.area || {})}
+
+    this.area = {};
+    for (let key of ['top', 'center', 'bottom']) {
+      let value = customArea[key];
+      this.area[key] = (typeof value === 'string' && value.endsWith('%')) ? Number.parseInt(value) / 100 * window.innerHeight : Number.parseInt(value);
+      if (Number.isNaN(this.area[key])) {
+        throw Error('Value of area.' + key + ' is invalid');
+      }
+    }
 
     showItIfShouldBe(this.target.getBoundingClientRect(), this);
 
