@@ -69,8 +69,12 @@ article h2 {
 }
 
 pre {
-    background: #fafefe;
+    background: #F7F7F7;
     padding: 0.5em;
+}
+
+code {
+    background: #F7F7F7;
 }
 
 article .description {
@@ -86,4 +90,22 @@ article .description {
 
 article .description h2 {
     margin: 0;
+}
+
+table tr{
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+
+table td {
+    font-size: 0.9rem;
 }

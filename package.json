@@ -75,16 +75,15 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/trungtin/HMHYR"
   },
   "homepage": "",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/trungtin/HMHYR/issues"
   },
   "keywords": [
     "react",
-    "reactjs",
-    ""
+    "reactjs"
   ],
   "license": "MIT",
   "pre-push": [

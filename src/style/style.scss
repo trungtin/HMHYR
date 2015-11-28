@@ -4,15 +4,22 @@ $progress-bar-color: #E8E8E8;
 $progress-bar-overlay-color: #9e9e9e;
 
 .progress-bar {
-  height: 100%;
-  width: 100%;
   background: $progress-bar-color;
+  overflow: hidden;
+  box-sizing: border-box;
+  h3, p {
+    margin: 0 1rem;
+    display: inline-block;
+  }
   .progress-bar-overlay {
     position: absolute;
     top: 0;
     left: 0;
-    width: 0%;
+    width: 100%;
     height: 100%;
+    z-index: -1;
     background: $progress-bar-overlay-color;
+    transform-origin: top left;
+    transform: scaleX(0);
   }
 }

@@ -5,7 +5,7 @@ export default class Demo extends React.Component {
   render() {
     return (
       <div>
-        <HMHYR offset="top" position={{top: 50, left: 50, width: '80%', height: '20%'}}>
+        <HMHYR static style={{top: '6em', left: '5%'}} title="Article One">
           <div>
             <h3>Article One</h3>
             <p>
@@ -69,7 +69,7 @@ export default class Demo extends React.Component {
             sed consequat laoreet, mauris ligula elementum arcu, quis aliquet est enim efficitur eros.
           </p>
         </div>
-        <HMHYR offset="top" position={{top: 50, left: 50, width: '80%', height: '20%'}} target="target"/>
+        <HMHYR style={{top: '6em', left: '5%'}} target="target" title = "Article Two"/>
       </div>
     );
   }

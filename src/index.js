@@ -5,48 +5,69 @@ if (process.env.BROWSER) {
   require('./style/style.scss');
 }
 
-function showItIfShouldBe(target, self) {
-  let targetRect = target.getBoundingClientRect();
+/**
+ *
+ * When two or more components all in valid area for display, one can take over control and force others hidden.
+ *
+ */
+function forceTakeOver(self) {
+  HMHYR.displayingComponent = 'hmhyr-' + self.keyId;
+  self.setState({showing: true});
+}
 
-  if (targetRect.top < self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight 
-      && targetRect.top < window.innerHeight
-      && targetRect.bottom > self.position.top + Number.parseInt(self.position.height)/100 * window.innerHeight) {
+function isLossControl(self) {
+  if (self.state.showing && HMHYR.displayingComponent !== 'hmhyr-' + self.keyId) {
+    self.setState({showing:false});
+  }
+}
 
-    if (HMHYR.displayingComponent === ReactDOM.findDOMNode(self).firstChild.id) {
+/**
+ *
+ * Main function for checking if component in valid area for display progress-bar.
+ *
+ */
+function showItIfShouldBe(targetRect, self) {
 
-      return updateItsPercentageCount(self);
+  if (targetRect.top < self.area.bottom
+      && targetRect.bottom > self.area.top) {
+
+    isLossControl(self);
+
+    if (HMHYR.displayingComponent === 'hmhyr-' + self.keyId) {
+
+      return updateItsPercentageCount(targetRect, self);
     } else if (!HMHYR.displayingComponent) {
-      updateItsPercentageCount(self)
+
+      updateItsPercentageCount(targetRect, self)
       HMHYR.displayingComponent = 'hmhyr-' + self.keyId;
 
       if (!self.state.showing) {
         self.setState({showing: true});
       }
+    } else if (window.document.getElementById(HMHYR.displayingComponent).getBoundingClientRect().bottom > self.area.center) {
+
+      forceTakeOver(self)
     }
   } else {
-    if (HMHYR.displayingComponent === ReactDOM.findDOMNode(self).firstChild.id) {
+    if (HMHYR.displayingComponent === 'hmhyr-' + self.keyId) {
       HMHYR.displayingComponent = null;
     }
     self.setState({showing: false});
   }
 }
 
-function updateItsPercentageCount(self) {
-
-  let targetRect = self.target.getBoundingClientRect();
-  let offset = self.props.offset === 'top' ? 0 : self.props.offset === 'bottom' ? 1 :
-    (self.props.offset && self.props.offset.endsWith('%')) ? self.props.offset / 100 : 0.5;
+function updateItsPercentageCount(targetRect, self) {
 
   let percentage;
-  if (offset * window.innerHeight <= targetRect.top) {
-    percentage = '0%';
-  } else if (offset * window.innerHeight >= targetRect.bottom) {
-    percentage = '100%';
+  if (self.area.center <= targetRect.top) {
+    percentage = 0;
+  } else if (self.area.center >= targetRect.bottom) {
+    percentage = 1;
   } else {
-    percentage = (offset * window.innerHeight - targetRect.top) / targetRect.height * 100 + '%';
+    percentage = (self.area.center - targetRect.top) / targetRect.height;
   }
   if (self.state.showing) {
-    self.refs.overlay.style.width = percentage;
+    self.refs.overlay.style.transform = 'scaleX(' + percentage + ')';
   }
 }
 
@@ -55,10 +76,12 @@ export default class HMHYR extends Component {
   static displayingComponent = null
 
   static propTypes = {
-    position: PropTypes.object,
+    style: PropTypes.object,
     target: PropTypes.string,
-    offset: PropTypes.string,
-    children: PropTypes.object
+    area: PropTypes.object,
+    children: PropTypes.object,
+    static: PropTypes.bool,
+    title: PropTypes.string
   }
 
   constructor () {
@@ -69,30 +92,37 @@ export default class HMHYR extends Component {
       percentage: 0
     };
     this.keyId = Math.round(Math.random() * 10000);
+    this.wordCount = 0;
+
   }
 
   componentWillMount() {
-    const initialPosition = {
-      top: 10,
-      left: 10,
-      width: '90%',
-      height: '5%'
+    const initialStyle = {
+      top: 20,
+      left: 20,
+      width: '90%'
     };
-    let customPosition = {};
-    for (let key of Object.keys(this.props.position)) {
-      let value = this.props.position[key];
-      let convertedValue = ( value > 1 || typeof value === 'string' && value.endsWith('%')) ? value : (value * 100) + '%';
-      if ((typeof value === 'string' && !value.endsWith('%')) && Number.isNaN(convertedValue)) {
-        throw Error('Position props is\'n valid');
+
+    this.style = Object.assign({},initialStyle, this.props.style || {});
+
+    let customArea = {...{
+      top: '20%',
+      center: '50%',
+      bottom: '60%'
+    }, ...(this.props.area || {})}
+
+    this.area = {};
+    for (let key of ['top', 'center', 'bottom']) {
+      let value = customArea[key];
+      this.area[key] = (typeof value === 'string' && value.endsWith('%')) ? Number.parseInt(value) / 100 * window.innerHeight : Number.parseInt(value);
+      if (Number.isNaN(this.area[key])) {
+        throw Error('Value of area.' + key + ' is invalid');
       }
-      customPosition[key] = convertedValue;
     }
-    this.position = Object.assign({},initialPosition, customPosition);
   }
 
   componentDidMount() {
     this.target = this.props.target ? window.document.getElementById(this.props.target) : ReactDOM.findDOMNode(this.refs.child);
-    console.log(this.target)
     if (!this.target) {
       throw Error('Either use \'target\' attribute or children to specific target');
     }
@@ -105,29 +135,33 @@ export default class HMHYR extends Component {
     let timeToRead = (this.wordCount / 200);
     timeToRead = Math.floor(timeToRead) + ' minute' + (timeToRead >= 2 ? 's ' : ' ') + Math.round((timeToRead - Math.floor(timeToRead)) * 60 ) + ' seconds';
 
+    // Where should I use setState if not here?
     this.setState({timeToRead});
-    showItIfShouldBe(this.target, this);
+
+    showItIfShouldBe(this.target.getBoundingClientRect(), this);
 
     let lastScroll = 0;
     window.document.addEventListener('scroll', () => {
-      if (window.scrollY - lastScroll > 10 || window.scrollY - lastScroll < -10) {
+      if (window.scrollY - lastScroll > 5 || window.scrollY - lastScroll < -5) {
         lastScroll = window.scrollY;
-        showItIfShouldBe(this.target, this)
+        showItIfShouldBe(this.target.getBoundingClientRect(), this)
       }
     });
   }
 
   render() {    
     return (
-      <div>
-        <div id={'hmhyr-' + this.keyId} style={{position: 'fixed', ...this.position}}>
-          { this.state.showing && 
-            <div className="progress-bar">
-              <div className="progress-bar-overlay" ref="overlay"></div>
-              <p>{this.state.timeToRead}</p>
-            </div>
-          }
-        </div>
+      <div id={'hmhyr-' + this.keyId}>
+        { this.props.static === true &&
+          <div className="progress-bar" style={{position: 'fixed', ...this.style}}></div>
+        }
+        { this.state.showing && 
+          <div className="progress-bar" style={{position: 'fixed', ...this.style}}>
+            <h3>{this.props.title}</h3>
+            <p>{this.state.timeToRead}</p>
+            <div className="progress-bar-overlay" ref="overlay"></div>
+          </div>
+        }
         { (typeof this.props.children === 'array' &&
             <div ref="child">
               { React.Children.map(this.props.children, (element, idx) => {
