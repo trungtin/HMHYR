@@ -15,8 +15,8 @@ export default class Demo extends React.Component {
       backgroundColor: '#46f700'
     };
     let area = {
-      center: '30%',
-      bottom: '50%'
+      center: '20%',
+      bottom: '40%'
     }
     return (
       <div>
