@@ -50,6 +50,10 @@ header .description {
     letter-spacing: 0.01em;
 }
 
+section {
+    font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+}
+
 article {
     display: block !important;
 
@@ -75,6 +79,14 @@ pre {
 
 code {
     background: #F7F7F7;
+    font-size: 0.9rem;
+}
+
+img {
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
 }
 
 article .description {

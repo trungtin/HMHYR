@@ -82,6 +82,7 @@ export default class HMHYR extends Component {
     static: PropTypes.bool,
     style: PropTypes.object,
     target: PropTypes.string,
+    timeCounter: PropTypes.boolean,
     title: PropTypes.string
   }
 
@@ -159,8 +160,8 @@ export default class HMHYR extends Component {
         }
         { this.state.showing && 
           <div className="progress-bar" style={this.style}>
-            <h3>{this.props.title}</h3>
-            <p>{this.state.timeToRead}</p>
+            <h3>{ this.props.title }</h3>
+            <p>{ this.props.timeCounter === true && this.state.timeToRead }</p>
             <div className="progress-bar-overlay" ref="overlay" style={this.props.overlayStyle}></div>
           </div>
         }

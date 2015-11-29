@@ -20,7 +20,7 @@ export default class Demo extends React.Component {
     }
     return (
       <div>
-        <HMHYR area={area} overlayStyle={overlayStyle} static style={style} title="Article One">
+        <HMHYR area={area} overlayStyle={overlayStyle} static style={style} timeCounter title="Article One">
           <div>
             <h3>Article One</h3>
             <p>
@@ -35,6 +35,7 @@ export default class Demo extends React.Component {
               scelerisque, sed hendrerit mi condimentum. Maecenas ante nibh, hendrerit a faucibus nec, efficitur non justo. Nam mollis volutpat
               velit, a ornare turpis tincidunt sit amet. Sed efficitur urna ultrices massa porta pellentesque. Ut ac odio at turpis aliquam molestie.
             </p>
+            <img src="https://cdn-images-1.medium.com/max/2000/1*f0ILCkatR-ushFsVNwzQ-A.jpeg" />
             <p>
               Aliquam erat volutpat. Pellentesque quis venenatis tortor. Nullam dignissim porta ex eget vehicula. Nullam volutpat eleifend fermentum.
               Ut dictum lectus at egestas aliquet. Fusce eu sollicitudin ligula. Proin at varius lacus. Aenean ac volutpat mauris, a faucibus ante.
@@ -70,6 +71,7 @@ export default class Demo extends React.Component {
             gravida ipsum, ac cursus magna. Donec faucibus feugiat dignissim. Vivamus sed quam nunc. Fusce quis purus ac nunc pulvinar varius
             ut vel nisi.
           </p>
+          <img src="https://cdn-images-1.medium.com/max/2000/0*m2s522B_A1SXZLJq.JPG" />
           <p>
             Etiam semper bibendum neque, ac aliquam arcu bibendum id. In volutpat mi eget gravida tincidunt. Nunc ornare eros sed metus
             scelerisque, sed hendrerit mi condimentum. Maecenas ante nibh, hendrerit a faucibus nec, efficitur non justo. Nam mollis volutpat
