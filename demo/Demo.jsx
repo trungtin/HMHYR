@@ -1,5 +1,5 @@
 import React from 'react';
-import HMHYR from '../dist-modules/index.js';
+import HMHYR from '../src/index.js';
 
 export default class Demo extends React.Component {
   render() {

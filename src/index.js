@@ -69,6 +69,7 @@ function updateItsPercentageCount(targetRect, self) {
 export default class HMHYR extends Component {
 
   static displayingComponent = null
+  static componentId = 0
 
   static propTypes = {
     area: PropTypes.object,
@@ -88,7 +89,7 @@ export default class HMHYR extends Component {
       timeToRead: 0,
       percentage: 0
     };
-    this.keyId = Math.round(Math.random() * 10000);
+    this.keyId = HMHYR.componentId++;
     this.wordCount = 0;
 
   }
