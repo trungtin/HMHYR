@@ -1,4 +1,5 @@
 build/
+dist/
 gh-pages/
 dist-modules/
 node_modules/

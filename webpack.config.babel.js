@@ -24,8 +24,8 @@ const config = {
     demo: path.join(ROOT_PATH, 'demo'),
     tests: path.join(ROOT_PATH, 'tests')
   },
-  filename: 'boilerplate',
-  library: 'Boilerplate'
+  filename: 'hmhyr',
+  library: 'HMHYR'
 };
 const AUTOPREFIXER_BROWSERS = [
   'Android 2.3',
@@ -35,7 +35,7 @@ const AUTOPREFIXER_BROWSERS = [
   'Explorer >= 9',
   'iOS >= 7',
   'Opera >= 12',
-  'Safari >= 7.1',
+  'Safari >= 7.1'
 ];
 const CSS_PATHS = [
   config.paths.demo,
@@ -253,12 +253,25 @@ const distCommon = {
         test: /\.jsx?$/,
         loaders: ['babel'],
         include: config.paths.src
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'postcss-loader']
       }
     ]
   },
   plugins: [
     new SystemBellPlugin()
-  ]
+  ],
+  postcss: function plugins(bundler) {
+    return [
+      require('postcss-import')({ addDependencyTo: bundler }),
+      require('precss')(),
+      require('autoprefixer')({
+        browsers: AUTOPREFIXER_BROWSERS
+      })
+    ];
+  }
 };
 
 if (TARGET === 'dist') {
