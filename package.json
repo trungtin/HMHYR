@@ -3,7 +3,7 @@
   "description": "How much have you read?",
   "author": "Tran Trung Tin",
   "user": "trungtin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "start": "webpack-dev-server",
     "test": "karma start",
