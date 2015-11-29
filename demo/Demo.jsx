@@ -3,9 +3,24 @@ import HMHYR from '../src/index';
 
 export default class Demo extends React.Component {
   render() {
+    let style = {
+      top: '5.5em',
+      left: 0,
+      height: 5,
+      width: '100%',
+      overflow: 'visible',
+      backgroundColor: '#c9ffb2'
+    };
+    let overlayStyle = {
+      backgroundColor: '#46f700'
+    };
+    let area = {
+      center: '30%',
+      bottom: '50%'
+    }
     return (
       <div>
-        <HMHYR static style={{top: '6em', left: '5%'}} title="Article One">
+        <HMHYR area={area} overlayStyle={overlayStyle} static style={style} title="Article One">
           <div>
             <h3>Article One</h3>
             <p>
@@ -69,7 +84,7 @@ export default class Demo extends React.Component {
             sed consequat laoreet, mauris ligula elementum arcu, quis aliquet est enim efficitur eros.
           </p>
         </div>
-        <HMHYR style={{top: '6em', left: '5%'}} target="target" title = "Article Two"/>
+        <HMHYR area={area} overlayStyle={overlayStyle} style={style} target="target" title = "Article Two"/>
       </div>
     );
   }

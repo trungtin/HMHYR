@@ -76,11 +76,12 @@ export default class HMHYR extends Component {
   static displayingComponent = null
 
   static propTypes = {
-    style: PropTypes.object,
-    target: PropTypes.string,
     area: PropTypes.object,
     children: PropTypes.object,
+    overlayStyle: PropTypes.object,
     static: PropTypes.bool,
+    style: PropTypes.object,
+    target: PropTypes.string,
     title: PropTypes.string
   }
 
@@ -98,6 +99,7 @@ export default class HMHYR extends Component {
 
   componentWillMount() {
     const initialStyle = {
+      position: 'fixed',
       top: 20,
       left: 20,
       width: '90%'
@@ -153,13 +155,13 @@ export default class HMHYR extends Component {
     return (
       <div id={'hmhyr-' + this.keyId}>
         { this.props.static === true &&
-          <div className="progress-bar" style={{position: 'fixed', ...this.style}}></div>
+          <div className="progress-bar" style={this.style}></div>
         }
         { this.state.showing && 
-          <div className="progress-bar" style={{position: 'fixed', ...this.style}}>
+          <div className="progress-bar" style={this.style}>
             <h3>{this.props.title}</h3>
             <p>{this.state.timeToRead}</p>
-            <div className="progress-bar-overlay" ref="overlay"></div>
+            <div className="progress-bar-overlay" ref="overlay" style={this.props.overlayStyle}></div>
           </div>
         }
         { (typeof this.props.children === 'array' &&

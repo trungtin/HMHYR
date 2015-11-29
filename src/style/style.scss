@@ -6,7 +6,11 @@ $progress-bar-overlay-color: #9e9e9e;
 .progress-bar {
   background: $progress-bar-color;
   overflow: hidden;
-  box-sizing: border-box;
+  box-sizing: border-box;  
+  animation-name: onMount;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
   h3, p {
     margin: 0 1rem;
     display: inline-block;
@@ -22,4 +26,13 @@ $progress-bar-overlay-color: #9e9e9e;
     transform-origin: top left;
     transform: scaleX(0);
   }
+}
+
+@keyframes onMount {
+    0% {
+        transform: scaleY(0);
+    }
+    100% {
+        transform: scaleY(1);
+    }
 }
