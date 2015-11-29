@@ -52,7 +52,9 @@ function showItIfShouldBe(targetRect, self) {
     if (HMHYR.displayingComponent === 'hmhyr-' + self.keyId) {
       HMHYR.displayingComponent = null;
     }
-    self.setState({showing: false});
+    if (self.state.showing) {
+      self.setState({showing: false});
+    }
   }
 }
 
@@ -82,7 +84,7 @@ export default class HMHYR extends Component {
     static: PropTypes.bool,
     style: PropTypes.object,
     target: PropTypes.string,
-    timeCounter: PropTypes.boolean,
+    timeCounter: PropTypes.bool,
     title: PropTypes.string
   }
 

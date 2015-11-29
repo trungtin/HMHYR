@@ -169,7 +169,8 @@ if (TARGET === 'gh-pages' || TARGET === 'deploy-gh-pages') {
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
-          'NODE_ENV': JSON.stringify('production')
+          'NODE_ENV': JSON.stringify('production'),
+          BROWSER: JSON.stringify(true)
         }
       }),
       new HtmlWebpackPlugin({
@@ -261,7 +262,12 @@ const distCommon = {
     ]
   },
   plugins: [
-    new SystemBellPlugin()
+    new SystemBellPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        BROWSER: JSON.stringify(true)
+      }
+    })
   ],
   postcss: function plugins(bundler) {
     return [
