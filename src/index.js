@@ -11,14 +11,9 @@ if (process.env.BROWSER) {
  *
  */
 function forceTakeOver(self) {
-  HMHYR.displayingComponent = 'hmhyr-' + self.keyId;
+  HMHYR.displayingComponent.setState({showing: false})
+  HMHYR.displayingComponent = self;
   self.setState({showing: true});
-}
-
-function isLossControl(self) {
-  if (self.state.showing && HMHYR.displayingComponent !== 'hmhyr-' + self.keyId) {
-    self.setState({showing:false});
-  }
 }
 
 /**
@@ -31,25 +26,23 @@ function showItIfShouldBe(targetRect, self) {
   if (targetRect.top < self.area.bottom
       && targetRect.bottom > self.area.top) {
 
-    isLossControl(self);
-
-    if (HMHYR.displayingComponent === 'hmhyr-' + self.keyId) {
+    if (HMHYR.displayingComponent && HMHYR.displayingComponent.keyId === self.keyId) {
 
       return updateItsPercentageCount(targetRect, self);
     } else if (!HMHYR.displayingComponent) {
 
       updateItsPercentageCount(targetRect, self)
-      HMHYR.displayingComponent = 'hmhyr-' + self.keyId;
+      HMHYR.displayingComponent = self;
 
       if (!self.state.showing) {
         self.setState({showing: true});
       }
-    } else if (window.document.getElementById(HMHYR.displayingComponent).getBoundingClientRect().bottom > self.area.center) {
+    } else if (window.document.getElementById('hmhyr-' + HMHYR.displayingComponent.keyId).getBoundingClientRect().bottom < self.area.center) {
 
       forceTakeOver(self)
     }
   } else {
-    if (HMHYR.displayingComponent === 'hmhyr-' + self.keyId) {
+    if (HMHYR.displayingComponent && HMHYR.displayingComponent.keyId === self.keyId) {
       HMHYR.displayingComponent = null;
     }
     if (self.state.showing) {
