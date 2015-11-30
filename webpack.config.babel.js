@@ -37,6 +37,9 @@ const AUTOPREFIXER_BROWSERS = [
   'Opera >= 12',
   'Safari >= 7.1'
 ];
+const SCSS_PATHS = [
+  path.join(config.paths.src, 'style')
+];
 const CSS_PATHS = [
   config.paths.demo,
   path.join(ROOT_PATH, 'style.css'),
@@ -86,7 +89,8 @@ const demoCommon = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'postcss-loader']
+        loaders: ['style-loader', 'css-loader', 'postcss-loader'],
+        include: SCSS_PATHS
       }
     ]
   },
@@ -246,7 +250,8 @@ const distCommon = {
         commonjs2: 'react',
         amd: 'React',
         root: 'React'
-    }
+    },
+    'react-dom': 'react-dom'
   },
   module: {
     loaders: [
@@ -257,7 +262,8 @@ const distCommon = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'postcss-loader']
+        loader: 'style-loader!css-loader!postcss-loader',
+        include: SCSS_PATHS
       }
     ]
   },
