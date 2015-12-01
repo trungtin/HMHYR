@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import Utils from './utils';
-if (process.env.BROWSER) {
+import {canUseDOM} from 'fbjs/lib/ExecutionEnvironment'
+if (canUseDOM) {
   require('./style/style.scss');
 }
 

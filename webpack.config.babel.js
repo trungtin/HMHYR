@@ -20,6 +20,7 @@ const ROOT_PATH = path.resolve(__dirname);
 const config = {
   paths: {
     dist: path.join(ROOT_PATH, 'dist'),
+    distModules: path.join(ROOT_PATH, 'dist-modules'),
     src: path.join(ROOT_PATH, 'src'),
     demo: path.join(ROOT_PATH, 'demo'),
     tests: path.join(ROOT_PATH, 'tests')
@@ -237,9 +238,7 @@ if (TARGET === 'test' || TARGET === 'tdd' || !TARGET) {
 }
 
 const distCommon = {
-  devtool: 'source-map',
   output: {
-    path: config.paths.dist,
     libraryTarget: 'umd',
     library: config.library
   },
@@ -250,8 +249,7 @@ const distCommon = {
         commonjs2: 'react',
         amd: 'React',
         root: 'React'
-    },
-    'react-dom': 'react-dom'
+    }
   },
   module: {
     loaders: [
@@ -268,12 +266,7 @@ const distCommon = {
     ]
   },
   plugins: [
-    new SystemBellPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        BROWSER: JSON.stringify(true)
-      }
-    })
+    new SystemBellPlugin()
   ],
   postcss: function plugins(bundler) {
     return [
@@ -288,7 +281,9 @@ const distCommon = {
 
 if (TARGET === 'dist') {
   module.exports = merge(distCommon, {
+    devtool: 'source-map',
     output: {
+      path: config.paths.dist,
       filename: config.filename + '.js'
     }
   });
@@ -296,7 +291,9 @@ if (TARGET === 'dist') {
 
 if (TARGET === 'dist-min') {
   module.exports = merge(distCommon, {
+    devtool: 'source-map',
     output: {
+      path: config.paths.dist,
       filename: config.filename + '.min.js'
     },
     plugins: [
@@ -306,6 +303,18 @@ if (TARGET === 'dist-min') {
         }
       })
     ]
+  });
+}
+
+if (TARGET === 'dist-modules') {
+  module.exports = merge(distCommon, {
+    output: {
+      path: config.paths.distModules,
+      filename: 'index.js'
+    },
+    externals: {
+      'react-dom': 'react-dom'
+    }
   });
 }
 
