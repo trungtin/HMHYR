@@ -249,7 +249,9 @@ const distCommon = {
         commonjs2: 'react',
         amd: 'React',
         root: 'React'
-    }
+    },
+    'react/lib/findDOMNode': 'react/lib/findDOMNode',
+    'react-dom': 'react-dom'
   },
   module: {
     loaders: [
@@ -311,9 +313,6 @@ if (TARGET === 'dist-modules') {
     output: {
       path: config.paths.distModules,
       filename: 'index.js'
-    },
-    externals: {
-      'react-dom': 'react-dom'
     }
   });
 }

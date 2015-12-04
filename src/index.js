@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
+import findDOMNode from 'react/lib/findDOMNode';
 import Utils from './utils';
 import {canUseDOM} from 'fbjs/lib/ExecutionEnvironment'
 if (canUseDOM) {
@@ -107,7 +107,7 @@ export default class HMHYR extends Component {
   }
 
   componentDidMount() {
-    this.target = this.props.target ? window.document.getElementById(this.props.target) : ReactDOM.findDOMNode(this.refs.child);
+    this.target = this.props.target ? window.document.getElementById(this.props.target) : findDOMNode(this.refs.child);
     if (!this.target) {
       throw Error('Either use \'target\' attribute or children to specific target');
     }

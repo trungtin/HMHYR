@@ -2,6 +2,9 @@
 
 Simple components for display reading progress, using `.getBoundingClientRect()` to calculate position relative to viewport
 
+## Demo
+[Live demo.](http://trungtin.github.io/HMHYR)
+
 ## Installation
 
 ``` javascript
